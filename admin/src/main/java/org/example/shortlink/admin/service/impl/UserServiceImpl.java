@@ -121,4 +121,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         return  remoteToken != null;
 
     }
+
+    @Override
+    public void logout(String username, String token) {
+        if (checkLogin(username,token)){
+            stringRedisTemplate.delete("login_"+username);
+            return;
+        }
+        throw new ClientException("用户Token不存在或者用户未登录");
+    }
 }

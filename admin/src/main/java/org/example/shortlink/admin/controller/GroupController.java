@@ -8,12 +8,15 @@ import org.example.shortlink.admin.dto.req.ShortLinkGroupSaveReqDTO;
 import org.example.shortlink.admin.dto.req.UserLoginReqDTO;
 import org.example.shortlink.admin.dto.req.UserRegisterReqDTO;
 import org.example.shortlink.admin.dto.req.UserUpdateReqDTO;
+import org.example.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
 import org.example.shortlink.admin.dto.resp.UserActualRespDTO;
 import org.example.shortlink.admin.dto.resp.UserLoginRespDTO;
 import org.example.shortlink.admin.dto.resp.UserRespDTO;
 import org.example.shortlink.admin.service.GroupService;
 import org.example.shortlink.admin.service.UserService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  *短链接分组控制层
@@ -27,5 +30,13 @@ public class GroupController {
     public Result<Void> save(@RequestBody ShortLinkGroupSaveReqDTO requestParam){
         groupService.saveGroup(requestParam.getName());
         return Results.success();
+    }
+
+
+
+    @GetMapping("/api/short-link/v1/group")
+    public Result<List<ShortLinkGroupRespDTO>> listGroup(  ){
+
+        return Results.success(groupService.listGroup());
     }
 }

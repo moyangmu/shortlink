@@ -1,4 +1,4 @@
-package org.example.shortlink.admin.remote.dto;
+package org.example.shortlink.admin.remote;
 
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSON;
@@ -12,7 +12,6 @@ import org.example.shortlink.admin.remote.dto.resp.ShortLinkPageRespDTO;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 短链接中台远程调服务

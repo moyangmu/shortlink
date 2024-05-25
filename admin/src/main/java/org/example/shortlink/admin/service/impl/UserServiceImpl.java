@@ -20,6 +20,7 @@ import org.example.shortlink.admin.dao.entity.UserDO;
 import org.example.shortlink.admin.dao.mapper.UserMapper;
 import org.example.shortlink.admin.dto.resp.UserRespDTO;
 import org.example.shortlink.admin.service.UserService;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson2.JSON;
@@ -71,10 +72,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 
         try {
             if (rLock.tryLock()){
-                int inserted = baseMapper.insert(BeanUtil.toBean(requestParam, UserDO.class));
-                if (inserted < 1) {
-                    throw new ClientException(UserErrorCodeEnum.USER_SAVE_ERROR);
+
+                try {
+                    int inserted = baseMapper.insert(BeanUtil.toBean(requestParam, UserDO.class));
+                    if (inserted < 1) {
+                        throw new ClientException(UserErrorCodeEnum.USER_SAVE_ERROR);
+                    }
+                }catch (DuplicateKeyException e){
+                    throw new ClientException(UserErrorCodeEnum.USER_EXIST);
                 }
+
                 userRegisterCachePenetrationBloomFilter.add(requestParam.getUsername());
                 return;
             }

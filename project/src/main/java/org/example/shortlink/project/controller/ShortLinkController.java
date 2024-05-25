@@ -7,12 +7,12 @@ import org.example.shortlink.project.common.convention.result.Results;
 import org.example.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import org.example.shortlink.project.dto.req.ShortLinkPageReqDTO;
 import org.example.shortlink.project.dto.resp.ShortLinkCreateRespDTO;
+import org.example.shortlink.project.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import org.example.shortlink.project.dto.resp.ShortLinkPageRespDTO;
 import org.example.shortlink.project.service.ShortLinkService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,5 +40,13 @@ public class ShortLinkController {
     public Result<IPage<ShortLinkPageRespDTO>> pageShortLink(ShortLinkPageReqDTO requestParam) {
 
         return Results.success(shortLinkService.pageShortLink(requestParam));
+    }
+
+    /**
+     * 查询短链接分组内数量
+     */
+    @GetMapping("/api/short-link/v1/count")
+    public Result<List<ShortLinkGroupCountQueryRespDTO>> ListGroupShortLinkCount(@RequestParam("requestParam") List<String> requestParam ) {
+        return Results.success(shortLinkService.ListGroupShortLinkCount(requestParam));
     }
 }

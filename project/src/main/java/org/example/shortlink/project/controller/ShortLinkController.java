@@ -6,6 +6,7 @@ import org.example.shortlink.project.common.convention.result.Result;
 import org.example.shortlink.project.common.convention.result.Results;
 import org.example.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import org.example.shortlink.project.dto.req.ShortLinkPageReqDTO;
+import org.example.shortlink.project.dto.req.ShortLinkUpdateReqDTO;
 import org.example.shortlink.project.dto.resp.ShortLinkCreateRespDTO;
 import org.example.shortlink.project.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import org.example.shortlink.project.dto.resp.ShortLinkPageRespDTO;
@@ -22,6 +23,7 @@ public class ShortLinkController {
 
     /**
      * 创建短链接
+     *
      * @param requestParam
      * @return
      */
@@ -31,8 +33,16 @@ public class ShortLinkController {
         return Results.success(shortLinkService.createShortLink(requestParam));
     }
 
+    @PutMapping("/api/short-link/v1/update")
+    public Result<Void> updateShortLink(@RequestBody ShortLinkUpdateReqDTO requestParam) {
+        shortLinkService.updateShortLink(requestParam);
+        return Results.success();
+    }
+
+
     /**
      * 分页查询短链接
+     *
      * @param requestParam
      * @return
      */
@@ -46,7 +56,7 @@ public class ShortLinkController {
      * 查询短链接分组内数量
      */
     @GetMapping("/api/short-link/v1/count")
-    public Result<List<ShortLinkGroupCountQueryRespDTO>> ListGroupShortLinkCount(@RequestParam("requestParam") List<String> requestParam ) {
+    public Result<List<ShortLinkGroupCountQueryRespDTO>> ListGroupShortLinkCount(@RequestParam("requestParam") List<String> requestParam) {
         return Results.success(shortLinkService.ListGroupShortLinkCount(requestParam));
     }
 }

@@ -4,12 +4,14 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import lombok.RequiredArgsConstructor;
+import org.example.shortlink.admin.common.biz.user.UserContext;
 import org.example.shortlink.admin.common.convention.exception.ClientException;
 import org.example.shortlink.admin.common.enums.UserErrorCodeEnum;
 import org.example.shortlink.admin.dto.req.UserLoginReqDTO;
 import org.example.shortlink.admin.dto.req.UserRegisterReqDTO;
 import org.example.shortlink.admin.dto.req.UserUpdateReqDTO;
 import org.example.shortlink.admin.dto.resp.UserLoginRespDTO;
+import org.example.shortlink.admin.service.GroupService;
 import org.redisson.api.RBloomFilter;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -44,6 +46,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     private final RBloomFilter<String> userRegisterCachePenetrationBloomFilter;
     private final RedissonClient redissonClient;
     private final StringRedisTemplate stringRedisTemplate;
+    private final GroupService groupService;
     @Override
     public UserRespDTO getUserByUsername(String username) {
         LambdaQueryWrapper<UserDO> queryWrapper = Wrappers.lambdaQuery(UserDO.class).eq(UserDO::getUsername, username);
@@ -83,6 +86,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                 }
 
                 userRegisterCachePenetrationBloomFilter.add(requestParam.getUsername());
+                groupService.saveGroup(requestParam.getUsername(),"默认分组");
+
                 return;
             }
             throw new ClientException(UserErrorCodeEnum.USER_NAME_EXIST);

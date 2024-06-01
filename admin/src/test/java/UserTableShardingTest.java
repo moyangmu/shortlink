@@ -18,18 +18,12 @@
 
 public class UserTableShardingTest {
 
-    public static final String SQL = "CREATE TABLE `t_group_%d`  (\n" +
-            "  `id` bigint NOT NULL AUTO_INCREMENT,\n" +
-            "  `gid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,\n" +
-            "  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,\n" +
-            "  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,\n" +
-            "  `sort_order` int NULL DEFAULT NULL,\n" +
-            "  `create_time` datetime NULL DEFAULT NULL,\n" +
-            "  `update_time` datetime NULL DEFAULT NULL,\n" +
-            "  `del_flag` tinyint(1) NULL DEFAULT NULL,\n" +
-            "  PRIMARY KEY (`id`) USING BTREE,\n" +
-            "  UNIQUE INDEX `idx_unique_username_gid`(`gid` ASC, `username` ASC) USING BTREE\n" +
-            ") ENGINE = InnoDB AUTO_INCREMENT = 1789666605797253123 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;";
+    public static final String SQL = "CREATE TABLE `t_link_goto_%d`(\n" +
+            "      `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',\n" +
+            "      `gid` varchar(32) DEFAULT 'default' COMMENT  '分组标识',\n" +
+            "      `full_short_url` varchar(128) DEFAULT NULL COMMENT '完整短链接',\n" +
+            "      PRIMARY KEY (`id`))\n" +
+            "      ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
 
     public static void main(String[] args) {
         for (int i = 0; i < 16; i++) {

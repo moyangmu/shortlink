@@ -7,7 +7,9 @@ import org.example.shortlink.admin.common.convention.result.Results;
 import org.example.shortlink.admin.dto.req.RecycleBinReqDTO;
 import org.example.shortlink.admin.remote.ShortLinkRemoteService;
 import org.example.shortlink.admin.remote.dto.req.ShortLinkPageReqDTO;
+import org.example.shortlink.admin.remote.dto.req.ShortLinkRecycleBinPageReqDTO;
 import org.example.shortlink.admin.remote.dto.resp.ShortLinkPageRespDTO;
+import org.example.shortlink.admin.service.RecycleBinService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class RecycleBinController {
 
 
+    private final RecycleBinService recycleBinService;
+
     ShortLinkRemoteService shortLinkService = new ShortLinkRemoteService() {
     };
-    @PostMapping("/api/short-link/v1/recycle-bin/save")
+    @PostMapping("/api/short-link/admin/v1/recycle-bin/save")
     public Result<Void> saveRecycleBin(@RequestBody RecycleBinReqDTO requestParam) {
         shortLinkService.saveRecycleBin(requestParam);
 
@@ -37,8 +41,9 @@ public class RecycleBinController {
      * @return
      */
     @GetMapping("/api/short-link/admin/v1/recycle-bin/page")
-    public Result<IPage<ShortLinkPageRespDTO>> pageShortLink(ShortLinkPageReqDTO requestParam) {
+    public Result<IPage<ShortLinkPageRespDTO>> pageShortLink(ShortLinkRecycleBinPageReqDTO requestParam) {
 
-        return shortLinkService.pageRecycleBinShortLink(requestParam);
+
+        return recycleBinService.pageRecycleBinShortLink(requestParam);
     }
 }

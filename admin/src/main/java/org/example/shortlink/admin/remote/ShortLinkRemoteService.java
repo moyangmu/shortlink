@@ -5,12 +5,14 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.example.shortlink.admin.common.convention.result.Result;
+import org.example.shortlink.admin.dto.req.RecycleBinReqDTO;
 import org.example.shortlink.admin.remote.dto.req.ShortLinkCreateReqDTO;
 import org.example.shortlink.admin.remote.dto.req.ShortLinkPageReqDTO;
 import org.example.shortlink.admin.remote.dto.req.ShortLinkUpdateReqDTO;
 import org.example.shortlink.admin.remote.dto.resp.ShortLinkCreateRespDTO;
 import org.example.shortlink.admin.remote.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import org.example.shortlink.admin.remote.dto.resp.ShortLinkPageRespDTO;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
@@ -79,6 +81,15 @@ public interface ShortLinkRemoteService {
         String resultStr = HttpUtil.get("http://127.0.0.1:8001/api/short-link/v1/title?url=" + url);
         return JSON.parseObject(resultStr, new TypeReference<>() {
         });
+
+    }
+
+    /**
+     * 保存回收站
+     * @param requestParam
+     */
+    default void saveRecycleBin( RecycleBinReqDTO requestParam){
+        HttpUtil.post("http://127.0.0.1:8001/api/short-link/v1/recycle-bin/save", JSON.toJSONString(requestParam));
 
     }
 }

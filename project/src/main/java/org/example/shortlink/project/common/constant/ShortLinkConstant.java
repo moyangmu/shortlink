@@ -9,4 +9,10 @@ public class ShortLinkConstant {
      */
     public static final long DEFAULT_CACHE_VALID_TIME = 2626560000L;
 
+
+    /**
+     * 高的获取接口地区
+     */
+    public static final String AMAP_REMOTE_URL = "https://restapi.amap.com/v3/ip";
+
 }

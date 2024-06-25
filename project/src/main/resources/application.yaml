@@ -18,3 +18,12 @@ spring:
     view:
       prefix: /templates/
       suffix: .html
+
+
+
+short-link:
+  domain:
+    default: nurl.ink:8001
+  stats:
+    locale:
+      amap-key: 7d16853dd093b79af3589d40a0dd85be

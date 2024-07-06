@@ -28,14 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.RequiredArgsConstructor;
 import org.example.shortlink.project.common.convention.exception.ServiceException;
 import org.example.shortlink.project.common.enums.ValiDateTypeEnum;
-import org.example.shortlink.project.dao.entity.LinkAccessStatsDO;
-import org.example.shortlink.project.dao.entity.LinkLocaleStatsDO;
-import org.example.shortlink.project.dao.entity.ShortLinkDO;
-import org.example.shortlink.project.dao.entity.ShortLinkGotoDO;
-import org.example.shortlink.project.dao.mapper.LinkAccessStatsMapper;
-import org.example.shortlink.project.dao.mapper.LinkLocaleStatsMapper;
-import org.example.shortlink.project.dao.mapper.ShortLinkGotoMapper;
-import org.example.shortlink.project.dao.mapper.ShortLinkMapper;
+import org.example.shortlink.project.dao.entity.*;
+import org.example.shortlink.project.dao.mapper.*;
 import org.example.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import org.example.shortlink.project.dto.req.ShortLinkPageReqDTO;
 import org.example.shortlink.project.dto.req.ShortLinkUpdateReqDTO;
@@ -85,7 +79,8 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
     private final LinkAccessStatsMapper linkAccessStatsMapper;
     private final RedissonClient redissonClient;
     private final LinkLocaleStatsMapper linkLocaleStatsMapper;
-
+    private final LinkOsStatsMapper linkOsStatsMapper;
+    private final LinkBrowserStatsMapper linkBrowserStatsMapper;
 
     @Value("${short-link.stats.locale.amap-key}")
     private String statsLocaleAmapKey;
@@ -381,6 +376,24 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                         .build();
                 linkLocaleStatsMapper.shortLinkLocaleState(linkLocaleStatsDO);
 
+
+                LinkOsStatsDO linkOsStatsDO = LinkOsStatsDO.builder()
+                        .os(LinkUtil.getOs((HttpServletRequest) request))
+                        .cnt(1)
+                        .date(new Date())
+                        .gid(gid)
+                        .build();
+
+                linkOsStatsMapper.shortLinkOsState(linkOsStatsDO);
+
+                LinkBrowserStatsDO linkBrowserStatsDO = LinkBrowserStatsDO.builder()
+                        .browser(LinkUtil.getBrowser(((HttpServletRequest) request)))
+                        .cnt(1)
+                        .gid(gid)
+                        .fullShortUrl(fullShortUrl)
+                        .date(new Date())
+                        .build();
+                linkBrowserStatsMapper.shortLinkBrowserState(linkBrowserStatsDO);
             }
 
 

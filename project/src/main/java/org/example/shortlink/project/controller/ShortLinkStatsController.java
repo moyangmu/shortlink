@@ -1,9 +1,12 @@
 package org.example.shortlink.project.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
 import org.example.shortlink.project.common.convention.result.Result;
 import org.example.shortlink.project.common.convention.result.Results;
+import org.example.shortlink.project.dto.req.ShortLinkStatsAccessRecordReqDTO;
 import org.example.shortlink.project.dto.req.ShortLinkStatsReqDTO;
+import org.example.shortlink.project.dto.resp.ShortLinkStatsAccessRecordRespDTO;
 import org.example.shortlink.project.dto.resp.ShortLinkStatsRespDTO;
 import org.example.shortlink.project.service.ShortLinkStatsService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,14 +39,14 @@ public class ShortLinkStatsController {
 //        return Results.success(shortLinkStatsService.groupShortLinkStats(requestParam));
 //    }
 //
-//    /**
-//     * 访问单个短链接指定时间内访问记录监控数据
-//     */
-//    @GetMapping("/api/short-link/v1/stats/access-record")
-//    public Result<IPage<ShortLinkStatsAccessRecordRespDTO>> shortLinkStatsAccessRecord(ShortLinkStatsAccessRecordReqDTO requestParam) {
-//        return Results.success(shortLinkStatsService.shortLinkStatsAccessRecord(requestParam));
-//    }
-//
+    /**
+     * 访问单个短链接指定时间内访问记录监控数据
+     */
+    @GetMapping("/api/short-link/v1/stats/access-record")
+    public Result<IPage<ShortLinkStatsAccessRecordRespDTO>> shortLinkStatsAccessRecord(ShortLinkStatsAccessRecordReqDTO requestParam) {
+        return Results.success(shortLinkStatsService.shortLinkStatsAccessRecord(requestParam));
+    }
+
 //    /**
 //     * 访问分组短链接指定时间内访问记录监控数据
 //     */
